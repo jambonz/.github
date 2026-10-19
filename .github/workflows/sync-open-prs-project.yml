@@ -1,0 +1,54 @@
+name: Sync open PRs to project
+
+# Keeps the org project "Open PRs — Commercial" (https://github.com/orgs/jambonz/projects/4)
+# complete. The project has no auto-add workflow (GitHub's built-in one covers a single
+# repo per workflow), so new PRs never reached the board. This adds any open PR that is
+# missing; the project's own workflows remove merged and closed ones.
+on:
+  schedule:
+    - cron: '17 * * * *'      # hourly
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Only report what would be added'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-open-prs-project
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add missing open PRs
+        env:
+          # the default GITHUB_TOKEN cannot write to organization projects: a PAT with
+          # the "project" scope (classic) or Projects read/write (fine-grained), plus
+          # read access to the repositories below
+          GH_TOKEN: ${{ secrets.PROJECT_SYNC_TOKEN }}
+          PROJECT_OWNER: jambonz
+          PROJECT_NUMBER: '4'
+          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+          REPOS: >-
+            drachtio/drachtio-srf
+            jambonz/api-server
+            jambonz/db-helpers
+            jambonz/feature-server
+            jambonz/inbound
+            jambonz/mediajam
+            jambonz/realtimedb-helpers
+            jambonz/sbc-call-router
+            jambonz/sbc-rtpengine-sidecar
+            jambonz/sbc-sip-sidecar
+            jambonz/schema
+            jambonz/speech-utils
+            jambonz/v10-examples
+            jambonz/webapp
+        run: scripts/sync-open-prs-project.sh
