@@ -43,6 +43,7 @@ jobs:
             jambonz/db-helpers
             jambonz/feature-server
             jambonz/inbound
+            jambonz/llm
             jambonz/mediajam
             jambonz/realtimedb-helpers
             jambonz/sbc-call-router
