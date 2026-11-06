@@ -38,6 +38,7 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
           REPOS: >-
             drachtio/drachtio-srf
+            jambonz/agent-studio
             jambonz/api-server
             jambonz/db-helpers
             jambonz/feature-server
