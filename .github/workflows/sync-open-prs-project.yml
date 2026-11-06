@@ -45,6 +45,9 @@ jobs:
             jambonz/inbound
             jambonz/llm
             jambonz/mediajam
+            jambonz/mrf
+            jambonz/node-sdk
+            jambonz/python-sdk
             jambonz/realtimedb-helpers
             jambonz/sbc-call-router
             jambonz/sbc-rtpengine-sidecar
@@ -53,4 +56,5 @@ jobs:
             jambonz/speech-utils
             jambonz/v10-examples
             jambonz/webapp
+            jambonz/webrtc-sdk
         run: scripts/sync-open-prs-project.sh
